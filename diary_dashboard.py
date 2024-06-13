@@ -34,6 +34,7 @@ def main():
         diary_data = json.load(uploaded_file)
         mood_graph(diary_data) # Display the mood graph
     else: st.subheader('Please upload a JSON file to get started.')
+    st.write('Made by Julian from the [Diarium Community](https://forum.diariumapp.com/)')
 
 if __name__ == "__main__":
     main()
