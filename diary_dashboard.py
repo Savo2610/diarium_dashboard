@@ -33,7 +33,7 @@ def main():
     if uploaded_file is not None:
         diary_data = json.load(uploaded_file)
         mood_graph(diary_data) # Display the mood graph
-    else: st.write('Please upload a JSON file to get started.')
+    else: st.write('Please upload a JSON file to get started!')
     st.write('Made by Julian from the [Diarium Community](https://forum.diariumapp.com/)')
 
 if __name__ == "__main__":
