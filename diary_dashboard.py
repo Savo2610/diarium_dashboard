@@ -29,11 +29,11 @@ def main():
     st.set_page_config(page_title="Diarydash")
     st.title('Diary Dashboard')
     st.write('Open Diarium App, click on export, select the time period to be displayed and for file format choose JSON, then upload the file here.')
-    uploaded_file = st.file_uploader("Upload JSON", type=["json"])
+    uploaded_file = st.file_uploader("Please upload a JSON file to get started", type=["json"])
     if uploaded_file is not None:
         diary_data = json.load(uploaded_file)
         mood_graph(diary_data) # Display the mood graph
-    else: st.subheader('Please upload a JSON file to get started.')
+    # else: st.subheader('Please upload a JSON file to get started.')
     st.write('Made by Julian from the [Diarium Community](https://forum.diariumapp.com/)')
 
 if __name__ == "__main__":
