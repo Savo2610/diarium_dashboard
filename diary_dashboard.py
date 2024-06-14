@@ -28,7 +28,7 @@ def mood_graph(diary_data):
 def main():
     st.set_page_config(page_title="Diarydash")
     st.title('Diary Dashboard')
-    st.write('Open Diarium App, click on export, select the time period to be displayed and for file format choose JSON, then upload the file here. Your diary has to have at least one rating to work')
+    st.write('Open Diarium App, click on export, select the time period to be displayed and for file format choose JSON, then upload the file here. At least one entry in the diary must have a rating.')
     uploaded_file = st.file_uploader("Upload JSON", type=["json"])
     if uploaded_file is not None:
         diary_data = json.load(uploaded_file)
