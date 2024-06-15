@@ -11,7 +11,7 @@ def mood_graph(diary_data):
         rating = entry.get("rating")
         if rating is not None:
             entries.append({"date": date, "rating": rating})
-            
+
     # DataFrame
     df = pd.DataFrame(entries)
     df['date'] = pd.to_datetime(df['date'])
@@ -34,17 +34,68 @@ def mood_graph(diary_data):
 
     st.pyplot(fig)
 
+def tracker_graph(diary_data, tracker):
+    # Extract Tracker Data
+    entries = []
+    for entry in diary_data:
+        date = entry.get("date")
+        tracker_data = entry.get("tracker", [])
+        for data in tracker_data:
+            if data.startswith(tracker):
+                value = data.split(": ")[1]
+                entries.append({"date": date, "value": value})
+
+    # DataFrame
+    df = pd.DataFrame(entries)
+    df['date'] = pd.to_datetime(df['date'])
+
+    # Plot Tracker Graph
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+    ax1.plot(df['date'], df['value'], marker='o')
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel('Value')
+    ax1.set_title(f'{tracker} Over Time')
+    ax1.tick_params(axis='x', rotation=45)
+
+    # Plot Value Frequency
+    value_counts = df['value'].value_counts().sort_index()
+    ax2.bar(value_counts.index, value_counts.values)
+    ax2.set_xlabel('Value')
+    ax2.set_ylabel('Frequency')
+    ax2.set_title(f'{tracker} Frequency')
+
+    st.pyplot(fig)
+
+
+def find_trackers(diary_data):
+    trackers = set()
+    for entry in diary_data:
+        for tracker in entry.get('tracker', []):
+            tracker_type = tracker.split(": ")[0]
+            trackers.add(tracker_type)
+
+    return trackers
+
 def main():
     #Header
     st.set_page_config(page_title="Diarydash")
-    st.title('Diary Dashboard')
+    st.title('Diarium Dashboard')
     st.write('Open Diarium App, click on export, select the time period to be displayed and for file format choose JSON, then upload the file here. At least one entry in the diary must have a rating.')
 
     #Analysis
     uploaded_file = st.file_uploader("Upload JSON", type=["json"])
     if uploaded_file is not None:
         diary_data = json.load(uploaded_file)
-        mood_graph(diary_data)
+        st.write('File uploaded successfully! Please choose the Tracker you want to analyse.')
+        #User selection
+        if st.checkbox('Analyse Ratings (Mood)'):
+            mood_graph(diary_data)
+        trackers = find_trackers(diary_data)
+        selected_trackers = []
+        for tracker in trackers:
+            if st.checkbox(tracker):
+                selected_trackers.append(tracker)
+                tracker_graph(diary_data, tracker)     
     else: st.write('Please upload a JSON file to get started!')
 
     #Footer
