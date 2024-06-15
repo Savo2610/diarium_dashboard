@@ -127,7 +127,7 @@ def main():
     else: st.write('Please upload a JSON file to get started!')
 
     #Footer
-    st.write('Made by Julian from the [Diarium Community](https://forum.diariumapp.com/)')
+    st.write('Made by Julian from the [Diarium Community](https://forum.diariumapp.com/). Check out the [source code](https://github.com/Savo2610/diarium_dashboard).')
 
 if __name__ == "__main__":
     main()
